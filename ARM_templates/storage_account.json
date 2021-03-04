@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "accountName": {
+            "type": "string",
+            "defaultValue": "[concat('st', uniquestring(resourceGroup().id))]",
+            "metadata": {
+                "description": "Name of the Azure Storage Account"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for all resources"
+            }
+        },
+        "storageAccountType": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_ZRS",
+                "Standard_RAGRS",
+                "Standard_GZRS",
+                "Standard_RAGZRS",
+                "Premium_LRS",
+                "Premium_ZRS"
+            ],
+            "metadata": {
+                "description": "Storage Account type"
+            }
+        },
+        "tags": {
+            "type": "object",
+            "defaultValue": {
+                "tagname":"tagvalue"
+            },
+            "metadata": {
+                "description": "Tags for Azure Storage Account"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('accountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            },
+            "kind": "StorageV2",
+            "location": "[parameters('location')]",
+            "properties": {}
+        }
+    ],
+    "outputs": {
+        "resourceId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('accountName'))]"
+        }
+    }
+}
