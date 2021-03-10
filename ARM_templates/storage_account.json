@@ -35,7 +35,7 @@
         "tags": {
             "type": "object",
             "defaultValue": {
-                "tagname":"tagvalue"
+                "tagname": "tagvalue"
             },
             "metadata": {
                 "description": "Tags for Azure Storage Account"
@@ -54,7 +54,13 @@
             },
             "kind": "StorageV2",
             "location": "[parameters('location')]",
-            "properties": {}
+            "properties": {
+                "supportsHttpsTrafficOnly": true,
+                "networkAcls": {
+                    "defaultAction": "Deny",
+                    "bypass": "AzureServices"
+                }
+            }
         }
     ],
     "outputs": {
